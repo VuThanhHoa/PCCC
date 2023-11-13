@@ -7,3 +7,4 @@ pandas==2.1.1
 SQLAlchemy==2.0.21
 # werkzeug==2.2.3
 pyopenssl==23.2.0
+pyzbar

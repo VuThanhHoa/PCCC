@@ -9,6 +9,7 @@ body {
 }
 
 .camera-container {
+    order: 1;
     text-align: center;
     max-width: 600px;
     width: 100%;
@@ -47,4 +48,8 @@ video {
 
 .status-text {
     margin-top: 20px;
+}
+
+.unscanned-employees {
+    order:2;
 }

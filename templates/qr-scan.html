@@ -7,7 +7,8 @@
     <title>Quét mã QR CODE</title>
 </head>
 <body>
-<div class="camera-container">
+<div class="container">
+    <div class="camera-container">
     <div class="camera-header">Quét mã QR CODE</div>
     <div id="status" class="confirmation-text"></div>
     <video id="video" autoplay playsinline muted></video>
@@ -16,7 +17,6 @@
         <button class="button" name="button-submit" value="submit">Hoàn thành</button>
     </form>
     <button class="button" onclick="toggleCamera()">Đổi camera</button>
-    <button class="button" onclick="capturePhoto()">Chụp ảnh</button>
 </div>
 <div class="unscanned-employees">
             <h2>Danh sách nhân viên chưa quét QR code:</h2>
@@ -41,6 +41,8 @@
                 </tbody>
             </table>
         </div>
+</div>
+
 <script src="{{ url_for('static', filename='js/qr-scan.js') }}"></script>
 </body>
 </html>

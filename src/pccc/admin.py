@@ -32,10 +32,10 @@ def dashboard():
         
     if os.path.isfile(TRAINING_TIME_DIR):
         last_training_time = pickle.load(open(TRAINING_TIME_DIR, "rb"))
-        info = f"Lần tập huấn gần nhất: {last_training_time}"
+        info = f"Lần diễn tập gần nhất: {last_training_time}"
         
     else:    
-        info = "Chưa có buổi tập nào được diễn ra"
+        info = "Chưa có buổi diễn tập nào được diễn ra"
         
     return render_template("adminPCCC.html", info=info)
 
