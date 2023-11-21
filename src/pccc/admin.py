@@ -6,7 +6,8 @@ import pickle
 import datetime
 
 from src.pccc.dashboard import get_results
-from src.pccc.database import session, engine, TapHuan, KetQua
+from src.pccc.database import session, engine, DienTap, KetQua
+from src.pccc.post_training import send_email_with_attachment, create_excel_file
 
 # Init
 admin = Blueprint("admin", __name__)
@@ -20,7 +21,7 @@ def dashboard():
         if request.form.get("button-start", False) == "start":
             last_training_time = datetime.datetime.now()
             pickle.dump(last_training_time, open(TRAINING_TIME_DIR, "wb"))
-            session.query(TapHuan).delete()
+            session.query(DienTap).delete()
             session.query(KetQua).delete()
             session.commit()
             
@@ -43,5 +44,19 @@ def dashboard():
 @login_required
 def training_details():
     
-    results = get_results(engine=engine, training_time_dir=TRAINING_TIME_DIR)
-    return render_template("training-details.html", results=results)
+    results, new_history = get_results(engine=engine, training_time_dir=TRAINING_TIME_DIR)
+    all_done = all(result['is_done'] for result in results.values())
+
+    if all_done:
+        # Format the date
+        date = datetime.datetime.strptime(new_history['ThoiDiem'], "%d/%m/%Y %H:%M").date()
+
+        # Create the Excel file
+        filename = f'Báo cáo diễn tập PCCC ngày {date.strftime("%d/%m/%Y")}.xlsx'
+        create_excel_file(results, new_history, filename)
+
+        # Send the email
+        recipient = 'vuthanh.hoa@hachiba.com.vn'
+        send_email_with_attachment(recipient, filename, new_history)
+
+    return render_template("training-details.html", results=results, new_history=new_history)

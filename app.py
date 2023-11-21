@@ -43,11 +43,11 @@ def decision(role):
 def login():
     logout_user()
     if request.method == "POST":
-        # Get user name, password from UI form
+        # Get username, password from UI form
         username = request.form["username"]
         password = request.form["password"]
         
-        #Get accout info from sql database
+        #Get account info from sql database
         db_account = session.query(Account).filter_by(MaNV=username).first()
 
         #Check valid or not
@@ -66,4 +66,3 @@ def login():
 
 if __name__ == "__main__":
     app.run(host= '0.0.0.0', debug=True, ssl_context='adhoc')
-# app.run(debug=True)

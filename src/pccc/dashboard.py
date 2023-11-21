@@ -1,7 +1,7 @@
 import datetime
 import pandas as pd
 import pickle as pkl
-
+import datetime
 def get_results(engine, training_time_dir):
     """_summary_
 
@@ -15,7 +15,7 @@ def get_results(engine, training_time_dir):
     
     # Init dataframe
     staff_df = pd.read_sql_table('NhanVien', engine)
-    training_df = pd.read_sql_table('TapHuan', engine)
+    training_df = pd.read_sql_table('DienTap', engine)
     result_df = pd.read_sql_table('KetQua', engine)
 
     # Process staff dataframe
@@ -44,9 +44,15 @@ def get_results(engine, training_time_dir):
     results = {}
     start_time = pkl.load(open(training_time_dir, "rb"))
     current = datetime.datetime.now()
+
+    total_absent = 0
+    total_staff = 0
+    last_submit_time = start_time
+
     for idx in range(staff_department_df.__len__()):
         absents = []
         total = staff_department_df.iloc[idx].counts
+        total_staff += total
         department = staff_department_df.iloc[idx].BoPhan
         total_names = staff_department_df.iloc[idx].list_name.split(", ")
         total_ids = staff_department_df.iloc[idx].list_id.split(", ")
@@ -58,6 +64,7 @@ def get_results(engine, training_time_dir):
             num_names = training_info.list_name.split(", ")
             num_ids = training_info.list_id.split(", ")
             execution_time = training_info.last_time - start_time
+            last_submit_time = max(last_submit_time, training_info.last_time)
         else:
             num_done = 0
             is_done = 0
@@ -67,6 +74,7 @@ def get_results(engine, training_time_dir):
         for id, name in zip(total_ids, total_names):
             if id not in num_ids:
                 absents.append(f"{name} ({id})")
+                total_absent += 1
         
         training_result = result_df.loc[result_df["BoPhan"]==department]
         if not training_result.empty:
@@ -82,7 +90,35 @@ def get_results(engine, training_time_dir):
             "total": total,
             "is_done": is_done,
             "absents": " ,".join(absents),
-            "execution_time": f"{execution_time.seconds // 60} phút, {execution_time.seconds % 60} giây"
+            "execution_time": f"{execution_time.seconds // 60} phút {execution_time.seconds % 60} giây"
         }
-    
-    return results
+
+    #Calculate overall results
+    complete_time = last_submit_time - start_time
+    absent_percentage = 100 * total_absent / total_staff
+    present_percentage = 100 - absent_percentage
+    if (complete_time.total_seconds() <= 5 * 60) and (present_percentage == 100):
+        pass_fail = "Đạt"
+    elif ((complete_time.total_seconds() == 0 *60) or (complete_time.total_seconds() > 5 * 60)) and (present_percentage != 100):
+        pass_fail = "Không đạt yêu cầu về thời gian tập hợp không quá 5 phút và tỷ lệ có mặt 100%"
+    elif (complete_time.total_seconds() > 5 * 60) and (present_percentage == 100):
+        pass_fail = "Không đạt yêu cầu về thời gian tập hợp không quá 5 phút"
+    elif (0 * 60 < complete_time.total_seconds() <= 5 * 60) and (present_percentage != 100):
+        pass_fail = "Không đạt yêu cầu về tỷ lệ có mặt 100%"
+
+    #Add to history
+    new_history = {
+        "ThoiDiem": start_time.strftime("%d/%m/%Y %H:%M"),
+        "ThoiGianHoanThanh": f"{complete_time.seconds // 60} phút {complete_time.seconds % 60} giây",
+        "KetQua": pass_fail,
+        "VangMat": f"{round(absent_percentage, 1)}%",
+        "CoMat": f"{round(present_percentage, 1)}%"
+    }
+
+    new_history_df = pd.DataFrame(new_history, index=[0])
+
+    #Save to database
+    new_history_df.to_sql('LichSu', engine, if_exists='append', index=False)
+
+    return results, new_history
+

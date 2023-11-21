@@ -7,7 +7,7 @@ import base64
 import datetime
 from PIL import Image
 
-from src.pccc.database import session, NhanVien, TapHuan, KetQua
+from src.pccc.database import session, NhanVien, DienTap, KetQua
 
 user = Blueprint("user", __name__)
 
@@ -35,12 +35,12 @@ def qr_scan():
             if not nhanvien.BoPhan == flask_session["bophan"]:
                 return jsonify(status=f"Nhân viên {nhanvien.HoTen} không thuộc bộ phận {flask_session['bophan']}")
 
-            check = session.query(TapHuan).filter_by(MaNV=nhanvien.MaNV).first()
+            check = session.query(DienTap).filter_by(MaNV=nhanvien.MaNV).first()
             if check:
                 return jsonify(status=f"{nhanvien.HoTen} đã được điểm danh trước đó")
             # Insert DB if QR code value is valid
             current_time = datetime.datetime.now()
-            taphuan = TapHuan(MaNV=nhanvien.MaNV, HoTen=nhanvien.HoTen, BoPhan=nhanvien.BoPhan,
+            taphuan = DienTap(MaNV=nhanvien.MaNV, HoTen=nhanvien.HoTen, BoPhan=nhanvien.BoPhan,
                               PhongBan=nhanvien.PhongBan, ThoiGian=current_time)
             session.add(taphuan)
             session.commit()
@@ -56,7 +56,7 @@ def qr_scan():
         else:
             return jsonify(status="Không tìm thấy QR code")
 
-    employees = session.query(NhanVien).filter(NhanVien.MaNV.notin_(session.query(TapHuan.MaNV))).filter_by(
+    employees = session.query(NhanVien).filter(NhanVien.MaNV.notin_(session.query(DienTap.MaNV))).filter_by(
         BoPhan=flask_session["bophan"]).all()
     return render_template('qr-scan.html', status="Hãy nhập gì đi", employees=employees)
 

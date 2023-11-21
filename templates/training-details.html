@@ -8,6 +8,16 @@
     <title>Thông tin diễn tập</title>
 </head>
 <body>
+<div class = "container">
+    <div>
+            <div class="result info-container">
+                <div class="info-item">Thời điểm: {{new_history["ThoiDiem"]}}</div>
+                <div class="info-item">Kết quả: {{new_history["KetQua"]}}</div>
+                <div class="info-item">Thời gian hoàn thành: {{new_history["ThoiGianHoanThanh"]}}</div>
+                <div class="info-item">Có mặt: {{new_history["CoMat"]}}</div>
+                <div class="info-item">Vắng mặt: {{new_history["VangMat"]}}</div>
+            </div>
+        </div>
     <div class="departments-container">
 
         {% for department in results %}
@@ -27,7 +37,7 @@
 
                 <div class="info-item">Thời gian thực hiện: {{results[department]["execution_time"]}}</div>
                 <div class="info-item">
-                    Nhân viên chưa điểm danh: 
+                    Nhân viên chưa điểm danh:
                     <span class="more-content" id="absents_{{department}}">
                         {{results[department]["absents"]}}
                     </span>
@@ -36,7 +46,11 @@
                 </div>
             </div>
         {% endfor %}
-    </div>
+
+
+        </div>
+</div>
+
     <script src="{{ url_for('static', filename='js/training-details.js') }}"></script>
 </body>
 </html>
