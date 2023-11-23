@@ -69,6 +69,7 @@ for idx in range(staff_df.__len__()):
 accounts = [
     {"MaNV": "H3803", "HoTen": "Vũ Thanh Hoà", "BoPhan": "THOP", "PhongBan": "Phòng Tổng hợp", "PassWord": "123", "Role": "admin"},
     {"MaNV": "H0844", "HoTen": "Nguyễn Thị Diệu Hương", "BoPhan": "XN", "PhongBan": "Xí nghiệp", "PassWord": "123", "Role": "user"},
+    {"MaNV": "L1349", "HoTen": "Nguyễn Thị Na Ly", "BoPhan": "XN1", "PhongBan": "Xí nghiệp", "PassWord": "123", "Role": "user"},
 ]
 
 for acc in accounts:

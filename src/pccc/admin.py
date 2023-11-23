@@ -49,7 +49,7 @@ def training_details():
 
     if all_done:
         # Format the date
-        date = datetime.datetime.strptime(new_history['ThoiDiem'], "%d/%m/%Y %H:%M").date()
+        date = datetime.datetime.strptime(new_history['MocThoiGian'], "%d/%m/%Y %H:%M").date()
 
         # Create the Excel file
         filename = f'Báo cáo diễn tập PCCC ngày {date.strftime("%d/%m/%Y")}.xlsx'

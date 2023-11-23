@@ -1,106 +1,44 @@
-/*=============== VARIABLES CSS ===============*/
-:root {
-    /*========== Colors ==========*/
-    /*Color mode HSL(hue, saturation, lightness)*/
-    --white-color: hsl(0, 0%, 100%);
-    --black-color: hsl(0, 0%, 0%);
-    /*========== Font and typography ==========*/
-    /*.5rem = 8px | 1rem = 16px ...*/
-    --body-font: "Poppins", sans-serif;
-    --h1-font-size: 1.75rem;
-    --normal-font-size: 1rem;
-    --small-font-size: 0.813rem;
-    /*========== Font weight ==========*/
-    --font-medium: 500;
-  }
-  
-  /*=============== BASE ===============*/
-  * {
-    box-sizing: border-box;
-    padding: 0;
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
     margin: 0;
-  }
-  
-  body,
-  input,
-  button {
-    font-size: var(--normal-font-size);
-    font-family: var(--body-font);
-  }
-  
-  body {
-    color: var(--white-color);
-  }
-  
-  input,
-  button {
-    border: none;
-    outline: none;
-  }
-  
-  a {
-    text-decoration: none;
-  }
-  
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  .bg__img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
+    background-color: #f4f4f4;
+}
 
 .success-container {
     text-align: center;
-    height: 20%;
     max-width: 600px;
     width: 100%;
-    margin: auto;
-    padding-top: 100px;
-    position: relative;
-    top: 0;
-}
-.notify {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    position: relative;
+    top: 0;
 }
 
 .success-header {
     font-size: 24px;
-    height: 40%;
-    margin-top: 35px;
-    display: block;
-    font-size: 2em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .back-button, .complete-button, .confirm-button {
+    background-color: #007bff;
+    color: #fff;
     padding: 10px 20px;
-    border: 2px solid;
-    background: #2691d9;
-    border-radius: 10px;
-    font-size: 18px;
-    color: #e9f4fb;
-    font-weight: 700;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    outline: none;
-    margin: 0px 25px;
+    font-size: 16px;
+    margin: 10px;
 }
 
 .back-button:hover, .complete-button:hover, .confirm-button:hover {
-    border-color: #2691d9;
-    transition: .7s;
+    background-color: #0056b3;
 }
 
 .confirmation-text {

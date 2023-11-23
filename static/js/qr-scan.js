@@ -42,12 +42,18 @@ let videoStream;
             .then((data) => {
                 // console.error('Error:', data);
                 // window.location.href = data.redirect_url;
-                document.getElementById('status').innerText = data.status;
+                var statusElement = document.getElementById('status');
+                statusElement.innerText = data.status;
                 if (/Điểm danh (.*?) thành công/.test(data.status)) {
                     // Lấy tên nhân viên từ phản hồi
                     var employeeName = data.status.match(/Điểm danh (.*?) thành công/)[1];
                     console.log(employeeName);
                     removeTableRowByEmployeeName(employeeName);
+                    statusElement.style.backgroundColor = 'green';
+                } else if (data.status === 'Không tìm thấy QR code') {
+                    statusElement.style.backgroundColor = 'red';
+                } else if (/{nhanvien.HoTen} đã được điểm danh trước đó/.test(data.status)) {
+                    statusElement.style.backgroundColor = 'yellow';
                 }
             })
             .catch((error) => {

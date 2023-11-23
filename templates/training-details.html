@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,48 +8,40 @@
 </head>
 <body>
 <div class = "container">
-    <div>
-            <div class="result info-container">
-                <div class="info-item">Thời điểm: {{new_history["ThoiDiem"]}}</div>
+       <div id="new-history" style="display: none;">
+                <div class="info-item">Mốc thời gian: {{new_history["MocThoiGian"]}}</div>
                 <div class="info-item">Kết quả: {{new_history["KetQua"]}}</div>
-                <div class="info-item">Thời gian hoàn thành: {{new_history["ThoiGianHoanThanh"]}}</div>
-                <div class="info-item">Có mặt: {{new_history["CoMat"]}}</div>
+                <div class="info-item">Lý do: {{new_history["LyDo"]}}</div>
+                <div class="info-item">Thời gian diễn ra thực tế: {{new_history["ThoiGianHoanThanh"]}}</div>
+                <div class="info-item">Tổng số có mặt trong ngày : {{new_history["TongSo"]}}</div>
+                <div class="info-item">Có mặt tại nơi tập trung: {{new_history["CoMat"]}}</div>
                 <div class="info-item">Vắng mặt: {{new_history["VangMat"]}}</div>
-            </div>
-        </div>
-    <div class="departments-container">
+       </div>
 
-        {% for department in results %}
-            <div class="info-container">
-                <div class="info-item">Bộ phận: {{department}}</div>
-                <div class="info-item">Tổng số nhân viên: {{results[department]["total"]}}</div>
-                <div class="info-item">Đã điểm danh: {{results[department]["num_done"]}}</div>
-                {% if results[department]["is_done"] %}
-                    <div class="info-item">
-                        Trạng thái: <span class="completed-status">Hoàn thành</span>
-                    </div>
-                {% else %}
-                    <div class="info-item">
-                        Trạng thái: <span class="processing-status">Đang thực hiện</span>
-                    </div>
-                {% endif %}
+        <table id="training-table">
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Bộ phận</th>
+              <th>Trạng thái</th>
+            </tr>
+          </thead>
+          <tbody>
+                {% set counter = 0 %}
+                {% for department, result in results.items() %}
+                {% set counter = counter + 1 %}
+                <tr class="{{ 'completed' if result['is_done'] else '' }}">
+                  <td>{{ counter }}</td>
+                  <td>{{ department }}</td>
+                  <td>{{ 'Hoàn thành' if result['is_done'] else 'Chưa hoàn thành' }}</td>
+                </tr>
+                {% endfor %}
+          </tbody>
+        </table>
 
-                <div class="info-item">Thời gian thực hiện: {{results[department]["execution_time"]}}</div>
-                <div class="info-item">
-                    Nhân viên chưa điểm danh:
-                    <span class="more-content" id="absents_{{department}}">
-                        {{results[department]["absents"]}}
-                    </span>
-                    <span class="show-btn" onclick="toggleContent('absents_{{department}}')">Show</span>
-                    <span class="less-btn" onclick="toggleContent('absents_{{department}}')" style="display:none;">Less</span>
-                </div>
-            </div>
-        {% endfor %}
-
-
-        </div>
 </div>
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/training-details.js') }}"></script>
 
-    <script src="{{ url_for('static', filename='js/training-details.js') }}"></script>
 </body>
 </html>

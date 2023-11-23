@@ -1,4 +1,3 @@
-import datetime
 import pandas as pd
 import pickle as pkl
 import datetime
@@ -108,11 +107,13 @@ def get_results(engine, training_time_dir):
 
     #Add to history
     new_history = {
-        "ThoiDiem": start_time.strftime("%d/%m/%Y %H:%M"),
+        "MocThoiGian": start_time.strftime("%d/%m/%Y %H:%M"),
+        "KetQua": "Đạt" if pass_fail.startswith("Đạt") else "Không đạt",
+        "LyDo": pass_fail,
         "ThoiGianHoanThanh": f"{complete_time.seconds // 60} phút {complete_time.seconds % 60} giây",
-        "KetQua": pass_fail,
-        "VangMat": f"{round(absent_percentage, 1)}%",
-        "CoMat": f"{round(present_percentage, 1)}%"
+        "TongSo": total_staff,
+        "CoMat": total_staff - total_absent,
+        "VangMat": total_absent,
     }
 
     new_history_df = pd.DataFrame(new_history, index=[0])

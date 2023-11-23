@@ -1,5 +1,5 @@
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, Boolean, ForeignKey, REAL
-from sqlalchemy.orm import sessionmaker, relationship, declarative_base
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, Boolean
+from sqlalchemy.orm import sessionmaker, declarative_base
 
 # Create engine and session
 engine = create_engine('sqlite:///instance/pccc.db')
@@ -53,11 +53,13 @@ class KetQua(Base):
 
 class LichSu(Base):
     STT = Column(Integer, primary_key=True, autoincrement=True)
-    ThoiDiem = Column(DateTime)
-    KetQua = Column(String(5))
+    MocThoiGian = Column(DateTime)
+    KetQua = Column(String(10))
+    LyDo = Column(String(255))
     ThoiGianHoanThanh = Column(DateTime)
-    CoMat = Column(REAL)
-    VangMat = Column(REAL)
+    TongSo = Column(Integer)
+    CoMat = Column(Integer)
+    VangMat = Column(Integer)
     __tablename__ = "LichSu"
     extend_existing = True
 
