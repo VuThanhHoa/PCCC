@@ -89,7 +89,8 @@ def get_results(engine, training_time_dir):
             "total": total,
             "is_done": is_done,
             "absents": " ,".join(absents),
-            "execution_time": f"{execution_time.seconds // 60} phút {execution_time.seconds % 60} giây"
+            "execution_time": f"{execution_time.seconds // 60} phút {execution_time.seconds % 60} giây",
+            "last_time": training_info.last_time if not training_info.empty else None
         }
 
     #Calculate overall results

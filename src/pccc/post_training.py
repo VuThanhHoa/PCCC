@@ -14,6 +14,21 @@ def create_excel_file(results, new_history, filename):
     new_history_df.columns = ["Mốc thời gian", "Kết quả", "Lý do", "Thời gian diễn ra thực tế",
                               "Tổng số có mặt trong ngày", "Có mặt tại nơi tập trung", "Vắng mặt"]
 
+
+    # Create a DataFrame for detailed results
+    detailed_results = []
+    for department, result in results.items():
+        detailed_results.append({
+            'Mốc thời gian': result['last_time'],
+            'Xí nghiệp/Phòng ban': department,
+            'Tổ/Bộ phận': department,
+            'Tổng số có mặt trong ngày': result['total'],
+            'Có mặt tại nơi tập trung': result['num_done'],
+            'Vắng mặt': result['total'] - result['num_done'],
+        })
+    detailed_results_df = pd.DataFrame(detailed_results)
+
+
     # Create a DataFrame for absent staff
     absent_staff = []
     for department, result in results.items():
@@ -33,6 +48,7 @@ def create_excel_file(results, new_history, filename):
     # Write to Excel file
     with pd.ExcelWriter(filename) as writer:
         new_history_df.to_excel(writer, sheet_name='Kết quả diễn tập', index=False)
+        detailed_results_df.to_excel(writer, sheet_name='Chi tiết', index=False)
         absent_staff_df.to_excel(writer, sheet_name='Danh sách vắng', index=False)
     print(f"File {filename} has been created.")
 
