@@ -4,7 +4,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 
 from src.pccc.user import user
 from src.pccc.admin import admin
-from src.pccc.database import session, Account
+from src.pccc.database import session, Account, NhanVien
 
 #Global variable
 TRAINING_TIME_DIR="./static/last_training.pkl"
@@ -31,10 +31,16 @@ class User(UserMixin):
 def load_user(user_id):
     user = User()
     user.id = user_id
+    staff_info = session.query(NhanVien).filter_by(MaNV=user_id).first()
+    user.MaNV = staff_info.MaNV
+    user.HoTen = staff_info.HoTen
+    user.BoPhan = staff_info.BoPhan
+    user.PhongBan = staff_info.PhongBan
     return user
 
 def decision(role):
     if role == "admin":
+        flask_session["all_done"] = 0
         return redirect(url_for('admin.dashboard'))
     elif role == "user":
         return redirect(url_for('user.qr_scan'))

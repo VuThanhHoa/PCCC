@@ -7,13 +7,24 @@ from email.header import Header
 import datetime
 import os
 
+def custom_df(df, header):
+    temp_df = pd.DataFrame([df.columns], columns=df.columns)
+    df = pd.concat([temp_df, df])
+    df = df.set_axis(header, axis=1)
+    return df
 
-def create_excel_file(results, new_history, filename):
+def create_excel_file(results, new_history, staff_absent_df, filename):
     # Convert new_history to DataFrame
     new_history_df = pd.DataFrame(new_history, index=[0])
     new_history_df.columns = ["Mốc thời gian", "Kết quả", "Lý do", "Thời gian diễn ra thực tế",
                               "Tổng số có mặt trong ngày", "Có mặt tại nơi tập trung", "Vắng mặt"]
 
+    new_history_header = ["CÔNG TY CP DỆT MAY 29/3 \nĐỘI PCCC", 
+                          "BÁO CÁO TỔNG HỢP \nĐIỂM DANH QUÂN SỐ CÓ MẶT TẠI NƠI TẬP TRUNG", 
+                          "HCB-CSR-THTN/BM1 \nLần soát xét : 01/00 \nNgày hiệu lực: 30/12/2023",
+                          "","","",""
+                          ]
+    new_history_df = custom_df(new_history_df, new_history_header)
 
     # Create a DataFrame for detailed results
     detailed_results = []
@@ -27,18 +38,31 @@ def create_excel_file(results, new_history, filename):
             'Vắng mặt': result['total'] - result['num_done'],
         })
     detailed_results_df = pd.DataFrame(detailed_results)
-
+    detailed_results_header = ["CÔNG TY CP DỆT MAY 29/3 \nĐỘI PCCC", 
+                               "BÁO CÁO CHI TIẾT \nĐIỂM DANH QUÂN SỐ CÓ MẶT TẠI NƠI TẬP TRUNG", 
+                               "HCB-CSR-THTN/BM1 \nLần soát xét : 01/00 \nNgày hiệu lực: 30/12/2023",
+                               "", "", ""]
+    detailed_results_df = custom_df(detailed_results_df, detailed_results_header)
 
     # Create a DataFrame for absent staff
     absent_staff = []
-    for department, result in results.items():
-        for staff in result['absents'].split(' ,'):
-            absent_staff.append({
-                'Bộ phận': department,
-                'Nhân viên vắng': staff
-            })
+    for idx in range(staff_absent_df.__len__()):
+        row = staff_absent_df.iloc[idx]
+        absent_staff.append({
+            'Tổ/Bộ phận': row.BoPhan,
+            'Xí nghiệp/Phòng ban': row.PhongBan,
+            'Họ Tên': row.HoTen,
+            "Mã số": row.MaNV
+        })
     absent_staff_df = pd.DataFrame(absent_staff)
-
+    absent_staff_df = pd.DataFrame(absent_staff_df)
+    absent_staff_header = ["CÔNG TY CP DỆT MAY 29/3 \nĐỘI PCCC", 
+                            "DANH SÁCH VẮNG MẶT TẠI NƠI TẬP TRUNG", 
+                            "HCB-CSR-THTN/BM1 \nLần soát xét : 01/00 \nNgày hiệu lực: 30/12/2023",
+                            ""
+                            ]
+    absent_staff_df = custom_df(absent_staff_df, absent_staff_header)
+    
     # Get the directory name
     dir_name = os.path.dirname(filename)
 
