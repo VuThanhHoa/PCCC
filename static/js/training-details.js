@@ -7,5 +7,9 @@ window.onload = function() {
   if (allDone) {
     document.getElementById('training-table').classList.add('completed');
     document.getElementById('new-history').style.display = 'block';
+  } else {
+    setTimeout(function() {
+      location.reload();
+    }, 3000);  
   }
 };

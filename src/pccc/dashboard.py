@@ -16,7 +16,7 @@ def get_results(engine, training_time_dir):
     staff_df = pd.read_sql_table('NhanVien', engine)
     training_df = pd.read_sql_table('DienTap', engine)
     result_df = pd.read_sql_table('KetQua', engine)
-
+    staff_absent_df = pd.merge(staff_df, training_df["MaNV"], on='MaNV', how='left', indicator=True).query("_merge == 'left_only'").drop('_merge', axis=1)
     # Process staff dataframe
     staff_department_df = staff_df.groupby(by=["BoPhan"]).agg({"Id": lambda x: len(x),
                                                                 "HoTen": ", ".join,
@@ -122,5 +122,5 @@ def get_results(engine, training_time_dir):
     #Save to database
     new_history_df.to_sql('LichSu', engine, if_exists='append', index=False)
 
-    return results, new_history
+    return results, new_history, staff_absent_df
 

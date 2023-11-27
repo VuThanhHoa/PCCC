@@ -1,18 +1,11 @@
 from email import encoders
 from email.mime.base import MIMEBase
-from email.mime.text import MIMEText
-
 import pandas as pd
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
 import datetime
 import os
-
-from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload
-from googleapiclient.errors import HttpError
-from google.oauth2.credentials import Credentials
 
 
 def create_excel_file(results, new_history, filename):
@@ -60,29 +53,7 @@ def create_excel_file(results, new_history, filename):
     print(f"File {filename} has been created.")
 
 
-def upload_file_to_drive(filename, folder_id):
-    creds = Credentials.from_authorized_user_file('static/credentials.json.json')
-    service = build('drive', 'v3', credentials=creds)
-
-    file_metadata = {
-        'name': filename,
-        'parents': [folder_id]
-    }
-    media = MediaFileUpload(filename, mimetype='application/vnd.ms-excel')
-    file = service.files().create(body=file_metadata, media_body=media, fields='id,webViewLink').execute()
-
-    permission = {
-        'type': 'anyone',
-        'role': 'reader',
-    }
-    try:
-        service.permissions().create(fileId=file['id'], body=permission).execute()
-    except HttpError as error:
-        print(f'An error occurred: {error}')
-
-    return file['webViewLink']
-
-def send_email_with_link(recipient, link, new_history):
+def send_email_with_attachment(recipient, filename, new_history):
     # Set up the SMTP server
     s = smtplib.SMTP_SSL(host='mail.hachiba.com.vn', port=465)
     s.login('vuthanh.hoa@hachiba.com.vn', 'Ho*!!811th')
@@ -96,10 +67,14 @@ def send_email_with_link(recipient, link, new_history):
     date = datetime.datetime.strptime(new_history['MocThoiGian'], "%d/%m/%Y %H:%M").date()
     msg['Subject'] = Header(f"Báo cáo kết quả diễn tập PCCC ngày {date.strftime('%d/%m/%Y')}", 'utf-8')
 
-    # Add the link to the email body
-    msg.attach(MIMEText(f'<a href="{link}">Click here to view the file</a>', 'html'))
+    # Add the attachment
+    part = MIMEBase('application', 'octet-stream')
+    with open(filename, 'rb') as file:
+        part.set_payload(file.read())
+    encoders.encode_base64(part)
+    part.add_header('Content-Disposition', f'attachment; filename= {filename}')
+    msg.attach(part)
 
     # Send the email
     s.send_message(msg)
     s.quit()
-
