@@ -7,7 +7,7 @@ import datetime
 
 from src.pccc.dashboard import get_results
 from src.pccc.database import session, engine, DienTap, KetQua
-from src.pccc.post_training import send_email_with_attachment, create_excel_file
+from src.pccc.post_training import create_excel_file, upload_file_to_drive, send_email_with_link
 
 # Init
 admin = Blueprint("admin", __name__)
@@ -43,7 +43,6 @@ def dashboard():
 @admin.route('/dashboard/training-details', methods=["GET", "POST"])
 @login_required
 def training_details():
-    
     results, new_history = get_results(engine=engine, training_time_dir=TRAINING_TIME_DIR)
     all_done = all(result['is_done'] for result in results.values())
 
@@ -55,8 +54,12 @@ def training_details():
         filename = f'Báo cáo diễn tập PCCC ngày {date.strftime("%d/%m/%Y")}.xlsx'
         create_excel_file(results, new_history, filename)
 
+        # Upload the file to Google Drive and get the link
+        folder_id = '1dkIf3NDikUDqLUFs8qmXwHDc8KMd1cQm'  # Replace with your Google Drive folder ID
+        link = upload_file_to_drive(filename, folder_id)
+
         # Send the email
         recipient = 'vuthanh.hoa@hachiba.com.vn'
-        send_email_with_attachment(recipient, filename, new_history)
+        send_email_with_link(recipient, link, new_history)
 
     return render_template("training-details.html", results=results, new_history=new_history)

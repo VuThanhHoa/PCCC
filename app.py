@@ -6,6 +6,8 @@ from src.pccc.user import user
 from src.pccc.admin import admin
 from src.pccc.database import session, Account
 
+
+
 #Global variable
 TRAINING_TIME_DIR="./static/last_training.pkl"
 
