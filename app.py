@@ -6,10 +6,8 @@ from src.pccc.user import user
 from src.pccc.admin import admin
 from src.pccc.database import session, Account, NhanVien
 
-
-
-#Global variable
-TRAINING_TIME_DIR="./static/last_training.pkl"
+# Global variable
+TRAINING_TIME_DIR = "./static/last_training.pkl"
 
 # Init App
 app = Flask(__name__)
@@ -22,12 +20,14 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
+
 # Class UserMixin help implement some related methods with users
 class User(UserMixin):
     def __init__(self) -> None:
         super().__init__()
         self.role = None
-        
+
+
 # Load user session from flask storage
 @login_manager.user_loader
 def load_user(user_id):
@@ -40,12 +40,14 @@ def load_user(user_id):
     user.PhongBan = staff_info.PhongBan
     return user
 
+
 def decision(role):
     if role == "admin":
         flask_session["all_done"] = 0
         return redirect(url_for('admin.dashboard'))
     elif role == "user":
         return redirect(url_for('user.qr_scan'))
+
 
 @app.route('/', methods=["GET", "POST"])
 def login():
@@ -54,11 +56,11 @@ def login():
         # Get username, password from UI form
         username = request.form["username"]
         password = request.form["password"]
-        
-        #Get account info from sql database
+
+        # Get account info from sql database
         db_account = session.query(Account).filter_by(MaNV=username).first()
 
-        #Check valid or not
+        # Check valid or not
         if db_account and db_account.PassWord == password:
             user = User()
             user.id = username
@@ -66,11 +68,12 @@ def login():
             flask_session["bophan"] = db_account.BoPhan
             login_user(user)
             return decision(current_user.role)
-        
+
         else:
             return render_template('login.html', error=True)
-            
+
     return render_template('login.html')
 
+
 if __name__ == "__main__":
-    app.run(host= '0.0.0.0', debug=True, ssl_context='adhoc')
+    app.run(host='0.0.0.0', debug=True, ssl_context='adhoc')
