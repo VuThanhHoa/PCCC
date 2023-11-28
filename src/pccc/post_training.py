@@ -56,7 +56,7 @@ def create_excel_file(results, new_history, staff_absent_df, filename):
             'Họ Tên': row.HoTen,
             "Mã số": row.MaNV
         })
-    absent_staff_df = pd.DataFrame(absent_staff)
+    absent_staff_df = pd.DataFrame(absent_staff, columns=['Tổ/Bộ phận', 'Xí nghiệp/Phòng ban', 'Họ Tên', 'Mã số'])
     absent_staff_df = pd.DataFrame(absent_staff_df)
     absent_staff_header = ["CÔNG TY CP DỆT MAY 29/3 \nĐỘI PCCC",
                            "DANH SÁCH VẮNG MẶT TẠI NƠI TẬP TRUNG",
@@ -94,11 +94,11 @@ def send_email_with_attachment(recipient, filename, new_history):
     msg['Subject'] = Header(f"Báo cáo kết quả diễn tập PCCC ngày {date.strftime('%d/%m/%Y')}", 'utf-8')
 
     # Add the attachment
-    part = MIMEBase('application', 'octet-stream')
+    part = MIMEBase('application', 'vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     with open(filename, 'rb') as file:
         part.set_payload(file.read())
     encoders.encode_base64(part)
-    part.add_header('Content-Disposition', f'attachment; filename= {filename}')
+    part.add_header('Content-Disposition', f'attachment; filename= {os.path.basename(filename)}')
     msg.attach(part)
 
     # Send the email
