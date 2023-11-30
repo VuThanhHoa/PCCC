@@ -1,91 +1,102 @@
-:root {
-  --white-color: hsl(0, 0%, 100%);
-  --black-color: hsl(0, 0%, 0%);
-  --body-font: "Poppins", sans-serif;
-  --h1-font-size: 2rem;
-  --normal-font-size: 1rem;
-  --small-font-size: .813rem;
-  --font-medium: 500;
-}
-
 body {
-    font-family: var(--body-font);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background: url("login-bg.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    color: var(--white-color);
-}
-
-.header-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 20px; /* Adjust as needed */
-}
-
-.logo {
-    width: 100px;
-    height: 65px;
-    margin-right: 10px;
-}
-
-.login-header {
-    font-size: var(--h1-font-size);
-    font-weight: var(--font-medium);
-    word-wrap: break-word; /* Allow the text to break onto the next line */
-    width: 80%; /* Prevent the text from getting too wide */
+  background-image: url('/static/img/login-bg.jpg');
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(0, 0, 128); /* RGB equivalent of #000080 */
 }
 
 .login-container {
-    position: relative;
-    background-color: hsla(0, 0%, 10%, 0.1);
-    border: 2px solid var(--white-color);
-    padding: 2.5rem 1.5rem;
-    border-radius: 1rem;
-    backdrop-filter: blur(8px);
-    max-width: 432px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  background-image: url('/static/img/blurred-background.jpg');
+  background-size: cover;
+  padding: 20px;
+  border: 3px solid #fff; /* Increase the border size */
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
 }
 
-form {
-    width: 100%;
-    height: 150%; /* Increase the height of the form */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.header-container {
+  display: flex;
+  flex-direction: column; /* Change the direction from row to column */
+  align-items: center;
+  margin-bottom: 20px;
+  color: rgb(0, 0, 128); /* RGB equivalent of #000080 */
+  font-size: normal;
 }
 
-.form-input, .login-button {
-    width: 90%;
-    height: 30%;
-    margin-bottom: 1rem;
-    position: relative; /* From .login__box-input */
+.header-container .logo {
+  width: 100px;
+  height: 70px;
 }
 
-.form-input::placeholder, .login-button::placeholder {
-    position: absolute;
-    left: 0;
-    top: 13px;
-    font-weight: var(--font-medium);
-    transition: top 0.3s, font-size 0.3s; /* From .login__label */
+.header-container .login-header {
+  margin-top: 20px; /* Add margin-top instead of margin-left */
+  font-size: normal;
+}
+
+.form-input {
+  width: 90%; /* Reduce the width */
+  padding: 10px;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 2px solid #fff;
+  background: transparent;
+  outline: none;
+  color: rgb(0, 0, 128); /* RGB equivalent of #000080 */
+  font-weight: bold; /* Make the text bold */
+  font-size: larger; /* Increase the font size */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  color: #fff; /* Keep the text color of the login button white */
+  background: #000080;
+  cursor: pointer;
+  font-weight: bold; /* Make the text bold */
+  font-size: larger; /* Increase the font size */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-button:hover {
+  background-color: #ff7f00; /* Change the background color to orange when hovered */
+}
+
+.error-message {
+  color: #ff0000;
+  margin-bottom: 10px;
+}
+
+  /* Chrome, Edge, Safari */
+::placeholder {
+  color: #000080;
+  opacity: 0.5; /* Firefox needs this */
+}
+
+/* Firefox */
+::-moz-placeholder {
+  color: #000080;
+  opacity: 0.5;
 }
 
 @media (max-width: 600px) {
-    .login-header {
-        font-size: var(--normal-font-size);
-        margin-top: 70px;
-        word-wrap: break-word;
-        width: 80%;
-        height: 90%
-    }
+  .login-container {
+    width: 75%;
+    height: auto; /* Change the height to auto on mobile devices */
+    background-position: center; /* Add this line */
+  }
+
+  .login-header {
+    text-align: center; /* Center the text */
+    white-space: pre-line; /* Allow line breaks */
+  }
 }

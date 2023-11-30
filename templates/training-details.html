@@ -10,7 +10,26 @@
 <!-- <meta http-equiv="refresh" content="30"> -->
 
 <div class = "container">
-       <div id="new-history" style="display: none;">
+    <div id="timer"></div>
+    <table id="training-table">
+  <thead>
+    <tr>
+      <th>STT</th>
+      <th>Bộ phận</th>
+      <th>Trạng thái</th>
+    </tr>
+  </thead>
+  <tbody>
+        {% for department, result in results.items() %}
+        <tr class="{{ 'completed' if result['is_done'] else '' }}">
+          <td>{{ loop.index }}</td> <!-- Use loop.index here -->
+          <td>{{ department }}</td>
+          <td>{{ 'Hoàn thành' if result['is_done'] else 'Chưa hoàn thành' }}</td>
+        </tr>
+        {% endfor %}
+  </tbody>
+</table>
+    <div id="new-history" style="display: none;">
                 <div class="info-item">Mốc thời gian: {{new_history["MocThoiGian"]}}</div>
                 <div class="info-item">Kết quả: {{new_history["KetQua"]}}</div>
                 <div class="info-item">Lý do: {{new_history["LyDo"]}}</div>
@@ -18,29 +37,7 @@
                 <div class="info-item">Tổng số có mặt trong ngày : {{new_history["TongSo"]}}</div>
                 <div class="info-item">Có mặt tại nơi tập trung: {{new_history["CoMat"]}}</div>
                 <div class="info-item">Vắng mặt: {{new_history["VangMat"]}}</div>
-       </div>
-
-        <table id="training-table">
-          <thead>
-            <tr>
-              <th>STT</th>
-              <th>Bộ phận</th>
-              <th>Trạng thái</th>
-            </tr>
-          </thead>
-          <tbody>
-                {% set counter = 0 %}
-                {% for department, result in results.items() %}
-                {% set counter = counter + 1 %}
-                <tr class="{{ 'completed' if result['is_done'] else '' }}">
-                  <td>{{ counter }}</td>
-                  <td>{{ department }}</td>
-                  <td>{{ 'Hoàn thành' if result['is_done'] else 'Chưa hoàn thành' }}</td>
-                </tr>
-                {% endfor %}
-          </tbody>
-        </table>
-
+    </div>
 </div>
         <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/training-details.js') }}"></script>

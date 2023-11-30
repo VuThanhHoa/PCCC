@@ -1,64 +1,69 @@
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    margin: 0;
-    background-color: #f4f4f4;
-    text-align: left;
+  background-image: url('/static/img/login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
 }
 
-.info-container {
-    background-color: #fff;
+.container {
+    background-image: url('/static/img/blurred-background.jpg');
+    background-size: cover;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    max-width: 1000px;
+    border: 3px solid #fff;
+    border-radius: 10px;
     width: 100%;
-    margin-top: 20px;
-}
-
-.departments-container {
+    max-width: 400px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Định vị phần tử từ trái qua phải */
-    gap: 10px; /* Khoảng cách giữa các phần tử */
+    margin: auto;
+}
+
+#timer {
+    font-size: 2em;
+    color: black;
+    text-align: center;
+}
+
+#training-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#training-table th, #training-table td {
+  border: 1px solid #000080;
+  padding: 10px;
+  text-align: left;
+}
+
+#training-table th {
+  background-color: #000080;
+  color: #fff;
+}
+
+#training-table .completed {
+  background-color: #cc6600;
+  color: #fff;
 }
 
 .info-item {
-    margin-bottom: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    display: inline-block;
-    width: 100%;
+  margin-bottom: 10px;
+  font-weight: bold;
 }
 
-.completed-status {
-    color: #28a745;
-    font-weight: bold;
-}
 
-.processing-status {
-    color: #a72828;
-    font-weight: bold;
-}
+@media (max-width: 600px) {
+  .container {
+    width: 95%;
+    background-position: center; /* Add this line */
+  }
 
-.more-content {
-    display: none;
-}
-
-.show-btn, .less-btn {
-    cursor: pointer;
-    color: #007bff;
-    text-decoration: underline;
-}
-
-.completed {
-  background-color: blue;
-}
-
-#training-table.completed {
-  display: none;
+  #training-table th, #training-table td {
+    padding: 5px;
+  }
 }

@@ -23,7 +23,7 @@ def create_excel_file(results, new_history, staff_absent_df, filename):
 
     new_history_header = ["CÔNG TY CP DỆT MAY 29/3 \nĐỘI PCCC",
                           "BÁO CÁO TỔNG HỢP \nĐIỂM DANH QUÂN SỐ CÓ MẶT TẠI NƠI TẬP TRUNG",
-                          "HCB-CSR-THTN/BM1 \nLần soát xét : 01/00 \nNgày hiệu lực: 30/12/2023",
+                          "HCB-CSR-THTN/BM1 \nLần soát xét : 01/00 \nNgày hiệu lực: 30/12/2023 \nNgười soạn thảo: Phòng Tổng hợp",
                           "", "", "", ""
                           ]
     new_history_df = custom_df(new_history_df, new_history_header)
@@ -42,7 +42,7 @@ def create_excel_file(results, new_history, staff_absent_df, filename):
     detailed_results_df = pd.DataFrame(detailed_results)
     detailed_results_header = ["CÔNG TY CP DỆT MAY 29/3 \nĐỘI PCCC",
                                "BÁO CÁO CHI TIẾT \nĐIỂM DANH QUÂN SỐ CÓ MẶT TẠI NƠI TẬP TRUNG",
-                               "HCB-CSR-THTN/BM1 \nLần soát xét : 01/00 \nNgày hiệu lực: 30/12/2023",
+                               "HCB-CSR-THTN/BM1 \nLần soát xét : 01/00 \nNgày hiệu lực: 30/12/2023 \nNgười soạn thảo: Phòng Tổng hợp",
                                "", "", ""]
     detailed_results_df = custom_df(detailed_results_df, detailed_results_header)
 
@@ -60,16 +60,22 @@ def create_excel_file(results, new_history, staff_absent_df, filename):
     absent_staff_df = pd.DataFrame(absent_staff_df)
     absent_staff_header = ["CÔNG TY CP DỆT MAY 29/3 \nĐỘI PCCC",
                            "DANH SÁCH VẮNG MẶT TẠI NƠI TẬP TRUNG",
-                           "HCB-CSR-THTN/BM1 \nLần soát xét : 01/00 \nNgày hiệu lực: 30/12/2023",
+                           "HCB-CSR-THTN/BM1 \nLần soát xét : 01/00 \nNgày hiệu lực: 30/12/2023 \nNgười soạn thảo: Phòng Tổng hợp",
                            ""
                            ]
     absent_staff_df = custom_df(absent_staff_df, absent_staff_header)
 
     # Get the directory name
-    dir_name = os.path.dirname(filename)
+    dir_name = "Báo cáo diễn tập"  # replace with your directory
 
     # Create the directory if it does not exist
     os.makedirs(dir_name, exist_ok=True)
+
+    # Replace invalid characters in filename
+    filename = filename.replace("/", "_").replace("\\", "_")
+
+    # Create the full file path
+    filename = os.path.join(dir_name, filename)
 
     # Write to Excel file
     with pd.ExcelWriter(filename) as writer:
@@ -91,14 +97,20 @@ def send_email_with_attachment(recipient, filename, new_history):
 
     # Format the date
     date = datetime.datetime.strptime(new_history['MocThoiGian'], "%d/%m/%Y %H:%M").date()
-    msg['Subject'] = Header(f"Báo cáo kết quả diễn tập PCCC ngày {date.strftime('%d/%m/%Y')}", 'utf-8')
+    msg['Subject'] = Header(f"Báo cáo kết quả diễn tập PCCC ngày {date.strftime('%d-%m-%Y')}", 'utf-8')
+
+    # Get the directory name
+    dir_name = "Báo cáo diễn tập"  # replace with your directory
+
+    # Create the full file path
+    filename = os.path.join(dir_name, filename)
 
     # Add the attachment
     part = MIMEBase('application', 'vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     with open(filename, 'rb') as file:
         part.set_payload(file.read())
     encoders.encode_base64(part)
-    part.add_header('Content-Disposition', f'attachment; filename= {os.path.basename(filename)}')
+    part.add_header('Content-Disposition', f'attachment; filename={os.path.basename(filename)}')
     msg.attach(part)
 
     # Send the email

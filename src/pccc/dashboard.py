@@ -101,7 +101,7 @@ def get_results(engine, training_time_dir):
     absent_percentage = 100 * total_absent / total_staff
     present_percentage = 100 - absent_percentage
     if (complete_time.total_seconds() <= 5 * 60) and (present_percentage == 100):
-        pass_fail = "Đạt"
+        pass_fail = "Đạt yêu cầu về thời gian tập hợp không quá 5 phút và tỷ lệ có mặt 100%"
     elif ((complete_time.total_seconds() == 0 * 60) or (complete_time.total_seconds() > 5 * 60)) and (
             present_percentage != 100):
         pass_fail = "Không đạt yêu cầu về thời gian tập hợp không quá 5 phút và tỷ lệ có mặt 100%"
@@ -112,7 +112,7 @@ def get_results(engine, training_time_dir):
 
     # Add to history
     new_history = {
-        "MocThoiGian": start_time.strftime("%d/%m/%Y %H:%M"),
+        "MocThoiGian": start_time.strftime("%d/%m/%Y - %H:%M"),
         "KetQua": "Đạt" if pass_fail.startswith("Đạt") else "Không đạt",
         "LyDo": pass_fail,
         "ThoiGianHoanThanh": f"{complete_time.seconds // 60} phút {complete_time.seconds % 60} giây",
