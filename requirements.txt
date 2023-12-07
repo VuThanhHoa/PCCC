@@ -10,3 +10,5 @@ pyopenssl==23.2.0
 pyzbar
 openpyxl
 pydrive
+gspread
+gspread-dataframe
