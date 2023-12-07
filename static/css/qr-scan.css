@@ -31,12 +31,13 @@ body {
   margin-bottom: 5px;
   font-weight: bold;
   color: #FFFFFF;
+  font-size: large;
 }
 
 #video {
   width: 100%;
   max-width: 400px;
-  height: auto;
+  height: 75vw;
 }
 
 .button {
@@ -49,7 +50,7 @@ body {
   text-align: center;
   width: 90%;
   font-weight: bold;
-  font-size: small;
+  font-size: large;
   font-family: Arial, Helvetica, sans-serif;
 }
 

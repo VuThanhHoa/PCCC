@@ -30,13 +30,13 @@
   </tbody>
 </table>
     <div id="new-history" style="display: none;">
-                <div class="info-item">Mốc thời gian: {{new_history["MocThoiGian"]}}</div>
-                <div class="info-item">Kết quả: {{new_history["KetQua"]}}</div>
-                <div class="info-item">Lý do: {{new_history["LyDo"]}}</div>
-                <div class="info-item">Thời gian diễn ra thực tế: {{new_history["ThoiGianHoanThanh"]}}</div>
-                <div class="info-item">Tổng số có mặt trong ngày : {{new_history["TongSo"]}}</div>
-                <div class="info-item">Có mặt tại nơi tập trung: {{new_history["CoMat"]}}</div>
-                <div class="info-item">Vắng mặt: {{new_history["VangMat"]}}</div>
+        <div class="info-item">Mốc thời gian: <span class="info-content">{{new_history["MocThoiGian"]}}</span></div>
+        <div class="info-item">Kết quả: <span class="info-content red-text">{{new_history["KetQua"]}}</span></div>
+        <div class="info-item">Lý do: <span class="info-content red-text">{{new_history["LyDo"]}}</span></div>
+        <div class="info-item">Thời gian diễn ra thực tế: <span class="info-content">{{new_history["ThoiGianHoanThanh"]}}</span></div>
+        <div class="info-item">Tổng số có mặt trong ngày : <span class="info-content">{{new_history["TongSo"]}}</span></div>
+        <div class="info-item">Có mặt tại nơi tập trung: <span class="info-content">{{new_history["CoMat"]}}</span></div>
+        <div class="info-item">Vắng mặt: <span class="info-content red-text">{{new_history["VangMat"]}}</span></div>
     </div>
 </div>
         <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>

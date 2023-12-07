@@ -66,7 +66,7 @@ def training_details():
 
     if flask_session["all_done"] == 1:
         # Format the date
-        date = datetime.datetime.strptime(new_history['MocThoiGian'], "%d/%m/%Y %H:%M").date()
+        date = datetime.datetime.strptime(new_history['MocThoiGian'], "%d/%m/%Y - %H:%M").date()
 
         # Create the Excel file
         filename = f'Bao cao dien tap PCCC ngay {date.strftime("%d-%m-%Y")}.xlsx'

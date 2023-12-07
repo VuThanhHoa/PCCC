@@ -96,7 +96,7 @@ def send_email_with_attachment(recipient, filename, new_history):
     msg['To'] = recipient
 
     # Format the date
-    date = datetime.datetime.strptime(new_history['MocThoiGian'], "%d/%m/%Y %H:%M").date()
+    date = datetime.datetime.strptime(new_history['MocThoiGian'], "%d/%m/%Y - %H:%M").date()
     msg['Subject'] = Header(f"Báo cáo kết quả diễn tập PCCC ngày {date.strftime('%d-%m-%Y')}", 'utf-8')
 
     # Get the directory name
