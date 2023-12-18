@@ -65,9 +65,9 @@ for idx in range(len(staff_df)):
 
 # Insert accounts
 accounts = [
-    {"MaNV": "H3803", "HoTen": "Vũ Thanh Hoà", "BoPhan": "THOP", "PhongBan": "Phòng Tổng hợp", "PassWord": "123", "Role": "admin"},
-    {"MaNV": "O0135", "HoTen": "Phan Thị Kim Oanh", "BoPhan": "XN", "PhongBan": "Xí nghiệp", "PassWord": "123", "Role": "user"},
-    {"MaNV": "L1382", "HoTen": "Nguyễn Thị Lanh", "BoPhan": "XN1", "PhongBan": "Xí nghiệp", "PassWord": "123", "Role": "user"},
+    {"MaNV": "H3803", "HoTen": "Vũ Thanh Hoà", "BoPhan": "THOP", "PhongBan": "Phòng Tổng hợp", "PassWord": "123", "Role": "user"},
+    {"MaNV": "P0872", "HoTen": "Hồ Anh Phát", "BoPhan": "KD-XNK", "PhongBan": "Phòng Kinh Doanh - Xuất Nhập Khẩu", "PassWord": "123", "Role": "user"},
+    {"MaNV": "H0080", "HoTen": "Trần Xuân Hoè", "BoPhan": "BGĐ", "PhongBan": "Ban Giám đốc", "PassWord": "123", "Role": "admin"},
 ]
 
 for acc in accounts:
